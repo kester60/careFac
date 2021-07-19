@@ -16,19 +16,18 @@
 
 */
 import React from "react";
-import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 // reactstrap components
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import AuthFooter from "components/Footers/AuthFooter.js";
 
-import routes from "routes.js";
-
-const Auth = (props) => {
+const HomeLayout = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
+  const history = useHistory();
 
   React.useEffect(() => {
     document.body.classList.add("bg-default");
@@ -42,21 +41,6 @@ const Auth = (props) => {
     mainContent.current.scrollTop = 0;
   }, [location]);
 
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
 
   return (
     <>
@@ -69,10 +53,14 @@ const Auth = (props) => {
                 <Col lg="5" md="6">
                   <h1 className="text-white">Welcome!</h1>
                   <p className="text-lead text-light">
-                  Content writer, do your thing here, Content writer, do your thing here
-                    Content writer, do your thing here, Content writer, do your thing here 
-                    ('for login and Registration')
+                    Content writer, do your thing here, Content writer, do your thing here
+                    Content writer, do your thing here, Content writer, do your thing here
                   </p>
+                  <div>
+                  </div>
+                  <Button onClick={() => history.push("/auth/register")} className="my-4 btn btn-large btn-primary" color="primary" >
+                    Register Now
+                  </Button>
                 </Col>
               </Row>
             </div>
@@ -93,19 +81,10 @@ const Auth = (props) => {
             </svg>
           </div>
         </div>
-        {/* Page content */}
-        <Container className="mt--8 pb-5">
-          <Row className="justify-content-center">
-            <Switch>
-              {getRoutes(routes)}
-              <Redirect from="*" to="/auth/login" />
-            </Switch>
-          </Row>
-        </Container>
       </div>
       <AuthFooter />
     </>
   );
 };
 
-export default Auth;
+export default HomeLayout;
